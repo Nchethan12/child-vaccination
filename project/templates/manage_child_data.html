@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Child Data</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://kit.fontawesome.com/a076d05399.js">
+    <style>
+        /* Navbar */
+        .navbar {
+            background-color: black;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+            font-size: 28px;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: white;
+            font-size: 14px;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: orange;
+        }
+
+        /* Card */
+        .card {
+            border: 1px solid #0f100e;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .card-header {
+            text-align: center;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #0f100e;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Parent Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="parent_dashboard">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/change_password">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manage_child_data">Manage Child Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="book_appointment">Book Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view_appointments">View Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav><br>
+
+    <!-- Main content -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Manage Child Data</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="childForm" action="/manage_child_data" method="post">
+                            <input type="hidden" name="child_id" id="child_id" value="">
+                            <!-- Existing fields for child data -->
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="age">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <input type="date" class="form-control" id="dob" name="dob" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">Weight (kg)</label>
+                                <input type="number" class="form-control" id="weight" name="weight" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="height">Height (cm)</label>
+                                <input type="number" class="form-control" id="height" name="height" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="hospital">Select Hospital</label>
+                                <select class="form-control" id="hospital" name="hospital_id">
+                                    <option value="">Select Hospital</option>
+                                    {% for hospital in hospitals %}
+                                        <option value="{{ hospital.id }}" {% if hospital.id == selected_hospital %} selected {% endif %}>{{ hospital.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <hr>
+                            
+                            <!-- Additional fields for vaccination data -->
+                            <h5  style="margin-left:100px;"> Age with Vaccines</h5><hr>
+                                <div class="form-group" style="margin-left:100px;">
+                                    
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vaccination" id="vaccine1" value="At Birth - BCG, OPV-zero dose, Hep B-birth dose" checked>
+                                        <label class="form-check-label" for="exampleRadios1">At Birth - BCG, OPV-zero dose, Hep B-birth dose</label>
+                                    </div><br><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vaccination" id="vaccine2" value="Six weeks - OPV-1, Pentavalent-1, Rota-1, FIPV-1, PCV-1*">
+                                        <label class="form-check-label" for="exampleRadios2">Six weeks - OPV-1, Pentavalent-1, Rota-1, FIPV-1, PCV-1*</label>
+                                    </div><br><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vaccination" id="vaccine3" value="10 week -Measles-1/MR-1, Vit A, JE-1*, PCV-B">
+                                        <label class="form-check-label" for="exampleRadios3">10 week -Measles-1/MR-1, Vit A, JE-1*, PCV-B</label>
+                                    </div><br><br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vaccination" id="vaccine4" value="5-6 years -  DPT second booster dose">
+                                        <label class="form-check-label" for="exampleRadios4">5-6 years -  DPT second booster dose</label>
+                                    </div><br><br>
+
+                                    
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="vaccination" id="vaccine5" value="10-16 years - Td">
+                                        <label class="form-check-label" for="exampleRadios5">10-16 years- Td</label>
+                                    </div>
+                                    <!-- Add more radio buttons for other vaccines -->
+                                </div><hr><br>
+                              
+                                
+                            <button type="submit" class="btn btn-primary" style="text-align: center;">Add Children</button>
+                        </form>
+                        <hr>
+                        <h4>Child Records</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Date of Birth</th>
+                                    <th>Weight</th>
+                                    <th>Age with Vaccine</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for child in children_data %}
+                                    <tr>
+                                        <td>{{ child.name }}</td>
+                                        <td>{{ child.age }}</td>
+                                        <td>{{ child.dob }}</td>
+                                        <td>{{ child.weight }}</td>
+                                        <td>{{ child.vaccination }}</td>
+                                        <td>
+                                            <form action="/delete_child" method="post" style="display: inline-block;">
+                                                <input type="hidden" name="child_id" value="{{ child.id }}">
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this record?')"><i class="fas fa-trash-alt"></i> Delete</button>
+                                            </form>
+                                            <button class="btn btn-sm btn-primary" onclick="editChild('{{ child.id }}', '{{ child.name }}', '{{ child.dob }}', '{{ child.age }}')"><i class="fas fa-edit"></i> Edit</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+document.getElementById('vaccine_name').addEventListener('change', function() {
+        var selectedOption = this.options[this.selectedIndex]; // Get the selected option
+     
+    });
+
+       function editChild(id, name, dob, age, gender, height, weight, vaccination ) {
+            document.getElementById('child_id').value = id;
+            document.getElementById('name').value = name;
+            document.getElementById('dob').value = dob;
+            document.getElementById('age').value = age;
+            document.getElementById('gender').value = gender;
+            document.getElementById('height').value = height;
+            document.getElementById('weight').value = weight;
+            document.getElementById('vaccination').value = vaccination;
+           
+}
+
+    </script>
+</body>
+</html>

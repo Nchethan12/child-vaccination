@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Navbar styles */
+        .navbar {
+            background-color: black;
+            border-bottom: 1px solid #ccc;
+            border-radius: 0;
+        }
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+            font-size: 28px;
+        }
+        .navbar-nav .nav-item .nav-link {
+            color: white;
+            font-size: 14px;
+        }
+        .navbar-nav .nav-item .nav-link:hover {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Parent Dashboard</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="parent_dashboard">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/change_password">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manage_child_data">Manage Child Data</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="book_appointment">Book Appointment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="view_appointments">View Appointments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title text-center">Book Appointment</h3>
+            </div>
+            <div class="card-body">
+                <form id="appointment-form" method="post">
+                    <div class="form-group">
+                        <label for="child_name">Select Child</label>
+                        <select class="form-control" id="child_name" name="child_name" required>
+                            <option value="">Select Child</option>
+                            {% for child in children_data %}
+                                <option value="{{ child[0] }}" data-hospital-id="{{ child[2] }}">{{ child[1] }}</option>
+                            {% endfor %}
+                        </select>                        
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointment_date">Appointment Date</label>
+                        <input type="date" class="form-control" id="appointment_date" name="appointment_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="appointment_time_slot">Select Time Slot</label>
+                        <select class="form-control" id="appointment_time_slot" name="appointment_time_slot" required>
+                            <option value="Morning">Morning (9:00 AM - 12:00 PM)</option>
+                            <option value="Afternoon">Afternoon (2:00 PM - 5:00 PM)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointment_time">Select Time</label>
+                        <select class="form-control" id="appointment_time" name="appointment_time" required>
+                            <!-- Options for appointment time slots -->
+                            <optgroup label="Morning">
+                                <option value="09:00">9:00 AM</option>
+                                <option value="09:30">9:30 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="10:30">10:30 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="11:30">11:30 AM</option>
+                                <option value="11:30">12:00 AM</option>
+                            </optgroup>
+                            <optgroup label="Afternoon">
+                                <option value="14:00">2:00 PM</option>
+                                <option value="14:30">2:30 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="15:30">3:30 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                                <option value="16:30">4:30 PM</option>
+                                <option value="11:30">5:00 AM</option>
+                            </optgroup>
+                        </select>
+                    </div> 
+                    <button type="submit" class="btn btn-primary btn-block">Book Appointment</button>
+                </form>
+            </div>
+        </div>
+    </div><br><br>
+
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#appointment-form').submit(function(e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                var hospitalId = $('#child_name option:selected').data('hospital-id');
+                formData += '&hospital_id=' + hospitalId;
+                $.ajax({
+                    type: 'POST',
+                    url: '/book_appointment',
+                    data: formData,
+                    success: function(response) {
+                        alert('Appointment booked successfully');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error occurred while booking appointment');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

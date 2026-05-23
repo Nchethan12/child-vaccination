@@ -1,0 +1,38 @@
+{% extends 'baselogin.html' %}
+{% block title %} Parent Login{% endblock title %}
+{% block form %}
+<h2>Parent Login </h2>
+
+<div class="row">
+<div class="col-md-4"></div>
+
+<div class="col-md-4">
+
+
+    <form action="/login" method="post">
+
+
+{% include "message.html" %}
+
+<div class="form-group">
+<input type="text" class="form-control mt-2" placeholder="Enter Username" name="username" required>
+</div>
+
+<div class="form-group">
+<input type="password" class="form-control mt-2" placeholder="Enter Password" name="password" required>
+</div>
+<br>
+<button type="submit" class="btn btn-info">Login</button>
+
+</form>
+
+<a class="text-dark" href="/signup">Register? Signup </a>
+</div>
+
+
+<div class="col-md-4"></div>
+
+</div>
+
+
+{% endblock form %}

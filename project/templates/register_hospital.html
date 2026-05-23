@@ -1,0 +1,31 @@
+{% extends 'baselogin.html' %}
+{% block title %} Hospital Register {% endblock title %}
+{% block form %}
+
+<div class="container" style="max-width: 400px;  margin: 0 auto; padding: 20px; border: 1px solid #0d0d0d; border-radius: 5px; margin-top: 130px;">
+    <h3 style="text-align: center; ">Hospital Registration</h3>
+    {% include "message.html" %}
+    <form method="post">
+        <div style="margin-bottom: 10px;">
+            <label for="name" style="display: block; margin-bottom: 5px;">Hospital Name:</label>
+            <input type="text" id="name" name="name" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="email" style="display: block; margin-bottom: 5px;">Email:</label>
+            <input type="email" id="email" name="email" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="password" style="display: block; margin-bottom: 5px;">Password:</label>
+            <input type="password" id="password" name="password" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="address" style="display: block; margin-bottom: 5px;">Address:</label>
+            <textarea id="address" name="address" required style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+        </div>
+        <div style="text-align: center;">
+            <input type="submit" value="Register" style="background-color: #007bff; color: white; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer;">
+        </div>
+    </form>
+</div>
+
+{% endblock form %}

@@ -1,0 +1,8 @@
+Flask>=3.0
+Flask-Login>=0.6
+Flask-SQLAlchemy>=3.1
+SQLAlchemy>=2.0
+mysql-connector-python>=9.0
+# Optional integrations used by the codebase
+Twilio>=9.0
+sendgrid>=6.11

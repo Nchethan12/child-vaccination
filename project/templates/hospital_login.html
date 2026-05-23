@@ -1,0 +1,25 @@
+{% extends 'baselogin.html' %}
+{% block title %} Hospital Login {% endblock title %}
+{% block form %}
+
+<br><br><br>
+<div class="container" style="max-width: 400px; background-color: rgb(11, 225, 244); margin-left: 250px;  margin-bottom: 1px;">
+    <h1 style="text-align: center; margin-bottom: 20px;">Hospital Login</h1>
+
+    {% include "message.html" %}
+    <form method="post">
+        <div style="margin-bottom: 10px;">
+            <label for="email" style="display: block; margin-bottom: 5px;">Email:</label>
+            <input type="email" id="email" name="email" required style="width: 100%; padding: 8px; border-radius: 5px;">
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="password" style="display: block; margin-bottom: 5px;">Password:</label>
+            <input type="password" id="password" name="password" required style="width: 100%; padding: 8px; border-radius: 5px;">
+        </div>
+        <div style="text-align: center;">
+            <input type="submit" value="Login" style="background-color: #007bff; color: white; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer;">
+        </div>
+    </form>
+    <p style="text-align: center; margin-top: 20px;">Don't have an account? <a href="/register_hospital" style="color: #007bff; text-decoration: none;">Register here</a>.</p>
+</div>
+{% endblock form %}
